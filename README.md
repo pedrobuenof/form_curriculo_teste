@@ -15,7 +15,7 @@ Utiliza os serviços de cadastro (CadastrarServico) e envio de e-mail (EnviarEma
 ### Serviço de Cadastro (CadastrarServico):
 
 Localizado em `App\Servicos\CadastrarServico.php`.
-Realiza o tratamento dos dados de entrada, salvando arquivos e interagindo com o repositório.
+Realiza o tratamento e manipulação dos dados de entrada, salvando arquivos e interagindo com o repositório.
 Trata exceções durante a execução e realiza logs.
 
 ### Serviço de Envio de E-mail (EnviarEmailServico):
