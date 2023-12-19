@@ -2,33 +2,40 @@ document.addEventListener('DOMContentLoaded', function () {
     const botaoSubmit = document.getElementById('btn');
 
     botaoSubmit.addEventListener('click', function (event) {
-        if (!validarCampo('nome', 'Por favor, preencha o campo Nome.')) {
+        if (!validarCampoVazio('nome', 'Por favor, preencha o campo Nome.')) {
             event.preventDefault();
             return;
         }
-        if (!validarCampo('email', 'Por favor, preencha o campo E-mail.')) {
+        if (!validarCampoVazio('email', 'Por favor, preencha o campo E-mail.')) {
             event.preventDefault();
             return;
         }
-        if (!validarCampo('telefone', 'Por favor, preencha o campo Telefone.')) {
+        if (!validarCampoVazio('telefone', 'Por favor, preencha o campo Telefone.')) {
             event.preventDefault();
             return;
         }
-        if (!validarCampo('cargo', 'Por favor, preencha o campo Cargo.')) {
+        if (!validarCampoVazio('cargo', 'Por favor, preencha o campo Cargo.')) {
             event.preventDefault();
             return;
         }
-        if (!validarCampo('escolaridade', 'Por favor, escolha 1 valor para o campo Escolaridade.')) {
+        if (!validarCampoVazio('escolaridade', 'Por favor, escolha 1 valor para o campo Escolaridade.')) {
             event.preventDefault();
             return;
         }
-        // Continue com as validações dos outros campos...
+        
+        const emailInput = document.getElementById('email');
+        const email = emailInput.value.trim();
+
+        if(!validarEmail(email, 'Formato de e-mail inválido.')){
+            event.preventDefault();
+            return;
+        }
 
         const arquivoInput = document.getElementById('arquivo_path');
         const arquivo = arquivoInput.files[0]
         
         
-        if (!validarArquivoSelecionado(arquivo)) {
+        if (!arquivoSelecionado(arquivo)) {
             event.preventDefault();
             return;
         }
@@ -42,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function validarCampo(campoId, mensagemErro) {
+    function validarCampoVazio(campoId, mensagemErro) {
         const campo = document.getElementById(campoId).value.trim();
         if (campo === '') {
             alert(mensagemErro);
@@ -51,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    function validarArquivoSelecionado(arquivo) {
+    function arquivoSelecionado(arquivo) {
         if (!arquivo) {
             alert('Por favor, selecione um arquivo.');
             return false;
@@ -60,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function validarFormatoArquivo(arquivo) {
-        console.log(arquivo)
+        //console.log(arquivo)
         const formatosPermitidos = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'];
         const extensao = arquivo.type;
 
@@ -73,6 +80,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function validarTamanhoArquivo(arquivo, tamanhoMaximo, mensagemErro) {
         if (arquivo.size > tamanhoMaximo) {
+            alert(mensagemErro);
+            return false;
+        }
+        return true;
+    }
+
+    function validarFormatoEmail(email) {
+        const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!regexEmail.test(email)) {
+            return false;
+        }
+        return true;
+    }
+
+    function validarEmail(email, mensagemErro) {
+        console.log(email)
+        if (!validarFormatoEmail(email)) {
             alert(mensagemErro);
             return false;
         }
