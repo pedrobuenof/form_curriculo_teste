@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class CadastrarCurriculo extends Controller
 {
@@ -29,6 +30,7 @@ class CadastrarCurriculo extends Controller
             $dataValid = $request->validated();
             //Log::info('Controller antes do cadastro e com token:', $dataValid);
 
+
             $dataDb = $this->cadastrar->execute($dataValid);
             //Log::info('Controller pós cadastro:', $dataDb);
             
@@ -47,11 +49,21 @@ class CadastrarCurriculo extends Controller
 
             return response()->json(['message' => 'Candidatura enviada com sucesso'], Response::HTTP_CREATED);
 
-        } catch (\Throwable $th) {
-            Log::error('Erro ao cadastrar currículo', ['message' => $th->getMessage(), 'trace' => $th->getTraceAsString()]);
+        } catch (ValidationException $e) {
 
-            return response()->json(['message' => 'Ocorreu um erro ao processar a solicitação'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+            $errors = $e->errors();
+
+            Log::error('Falha na validação', $errors);
+
+            return response()->json(['error' => 'Falha na validação', 'details' => $errors], Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        } catch (\Exception $e) {
+
+            Log::error('Erro ao cadastrar currículo', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+
+            return response()->json(['message' => 'Ocorreu um erro inesperado'], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        } 
         
     }
 }

@@ -28,7 +28,7 @@ class CurriculoRequest extends FormRequest
             'cargo' => ['required', 'string'],
             'escolaridade' => ['required', 'in:ensino_medio,cursando_ensino_superior,ensino_superior_concluido'],
             'observacoes' => ['nullable', 'string'],
-            'arquivo_path' => ['required','file','mimes:doc,docx,pdf','max:6024']
+            'arquivo_path' => ['required','file','mimes:doc,docx,pdf','max:1024']
         ];
     }
 }
