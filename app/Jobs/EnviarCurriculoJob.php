@@ -38,7 +38,7 @@ class EnviarCurriculoJob implements ShouldQueue
                 break;
             } catch (\Exception $e) {
                 // Log do erro
-                Log::error('Erro ao enviar e-mail no Job: ' . $e->getMessage());
+                Log::error('Job: Erro ao enviar e-mail no Job - ' . $e->getMessage());
 
                 // Aguarde por um curto período antes de tentar novamente
                 sleep(2);

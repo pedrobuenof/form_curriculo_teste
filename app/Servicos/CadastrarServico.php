@@ -39,11 +39,11 @@ class CadastrarServico implements CadastrarInterface
 
             return $dataDb;
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
 
-            Log::error('Erro ao cadastrar', ['message' => $th->getMessage()]);
+            Log::error('Serviço: Erro ao cadastrar - ', ['message' => $e->getMessage()]);
 
-            return ["erro" => "Ocorreu um erro ao cadastrar", "mensagem" => $th->getMessage()];
+            return ["erro" => "Serviço: Ocorreu um erro ao cadastrar - ", "mensagem" => $e->getMessage()];
         }
         
     }

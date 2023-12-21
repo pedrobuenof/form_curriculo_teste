@@ -46,13 +46,13 @@ class Repository implements RepositoryInterface
             return $dataDbArray;
 
         } catch (QueryException $queryException) {
-            Log::error('Erro ao cadastrar no repositório', ['message' => $queryException->getMessage()]);
+            Log::error('Repository: Erro ao cadastrar ou resgatar no repositório - ', ['message' => $queryException->getMessage()]);
 
-            return ["erro" => "Erro no banco de dados", "mensagem" => $queryException->getMessage()];
-        } catch (\Throwable $th) {
-            Log::error('Erro desconhecido ao cadastrar no repositório', ['message' => $th->getMessage()]);
+            return ["erro" => "Respository: Erro no banco de dados - ", "mensagem" => $queryException->getMessage()];
+        } catch (\Exception $e) {
+            Log::error('Repository: Erro desconhecido ao cadastrar no repositório - ', ['message' => $e->getMessage()]);
 
-            return ["erro" => "Ocorreu um erro ao cadastrar no DB", "mensagem" => $th->getMessage()];
+            return ["erro" => "Repository: Ocorreu um erro ao cadastrar no DB - ", "mensagem" => $e->getMessage()];
         }
         
     }
